@@ -2,15 +2,20 @@ const express= require('express');
 const router = express.Router();
 const schemaCart = require('../models/DB/cartschema');
 const checkProduct = require('../middleware/checkProduct')
-//const cartMatch = require('../middleware/authenticate')
+const authenticate = require('../middleware/authenticate')
+const jwt_decode = require("jwt-decode");
+const Cartfetch = require('../models/DB/cartschema');
+
 
 //POSTING into Cart
 router.post('/', checkProduct, async (req,res) =>
 {
-//const count = Object.keys(req.body.productid).length;
-//console.log(count);
-const postdata = new schemaCart({
-productid: req.body.productid
+    const token = req.headers.authorization.split(" ")[1];
+    var decoded = jwt_decode(token);
+    const JWT_usersId = decoded.usersId;
+    const postdata = new schemaCart({
+    productid: req.body.productid,
+    userid:decoded.usersId
 })
 try{
 console.log(req.body.productid[0])
@@ -23,10 +28,13 @@ res.send(`error:${err}`)
 })
 
 //GET the Cart
-router.get('/', async(req,res) => {
+router.get('/',authenticate, async(req,res) => {
+    const token = req.headers.authorization.split(" ")[1];
+    var decoded = jwt_decode(token);
+    const JWT_usersId = decoded.usersId;
 try{
-const data=await schemaCart.find()
-res.json(data)
+    const data = await Cartfetch.findOne({userid:JWT_usersId});
+res.json({cart:data.productid})
 }catch(err){
 res.send('Error ' + err)
 }
@@ -34,15 +42,17 @@ res.send('Error ' + err)
 
 
 //UPDATE the Cart
-router.put('/:id',async(req,res)=>
+router.put('/:id',checkProduct,async(req,res)=>
 {
 let id=req.params.id;
 try{
-console.log(req.body.productid[0])
+
+const count = Object.keys(req.body.productid).length;
 const cartdata=await schemaCart.findByIdAndUpdate(id)
-cartdata.productid[0]=req.body.productid[0];
-cartdata.productid[1]=req.body.productid[1];
-cartdata.productid[2]=req.body.productid[2];
+for(var i=1; i<=count; i++){
+cartdata.productid[i]=req.body.productid[i];
+}
+
 const putdata=cartdata.save()
 res.json({message:"cart updated succesully"})
 }
