@@ -35,7 +35,7 @@ price: req.body.price
 try{
 const a1 = await postdata.save()
 //const message="product is added"
-res.json({message:"product is added"});
+res.json({message:"Product is added"});
 }catch(err){
 res.send(`error:${err}`)
 }

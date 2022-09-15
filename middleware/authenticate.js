@@ -13,8 +13,7 @@ const cartMatch = async (req, res, next) => {
     console.log("matchuser1",matchUser1.userid);
         if(JWT_usersId === matchUser1.userid) {
             console.log("Success");
-            next();
-            
+            next();     
         } 
     else { 
         //console.log("error", error);
