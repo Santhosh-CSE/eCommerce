@@ -2,7 +2,7 @@ const express= require('express');
 const router = express.Router();
 const schemaCart = require('../models/DB/cartschema');
 const checkProduct = require('../middleware/checkProduct')
-const authenticate = require('../middleware/authenticate')
+//const authenticate = require('../middleware/authenticate')
 const jwt_decode = require("jwt-decode");
 const Cartfetch = require('../models/DB/cartschema');
 
@@ -28,7 +28,7 @@ res.send(`error:${err}`)
 })
 
 //GET the Cart
-router.get('/',authenticate, async(req,res) => {
+router.get('/', async(req,res) => {
     const token = req.headers.authorization.split(" ")[1];
     var decoded = jwt_decode(token);
     const JWT_usersId = decoded.usersId;
