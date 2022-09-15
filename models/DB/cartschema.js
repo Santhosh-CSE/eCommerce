@@ -1,3 +1,4 @@
+const string = require('@hapi/joi/lib/types/string');
 const mongoose = require('mongoose');
 cartSchema = mongoose.Schema({
 productid: {
