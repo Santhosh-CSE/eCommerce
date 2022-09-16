@@ -19,6 +19,9 @@ app.use('/addtoCart', addToCartRoutes);
 const updateCartRoutes = require('./routes/updatecart');
 app.use('/updatecart', updateCartRoutes);
 
+const deleteCartRoutes = require('./routes/deletecart');
+app.use('/deletecart', deletedCartRoutes);
+
 //Routes
 app.get('/',(req,res)=>{
     res.send('We are on home');
