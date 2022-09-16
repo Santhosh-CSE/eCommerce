@@ -4,7 +4,9 @@ const checkProduct = async (req, res, next) => {
   console.log(req.body.productid);
 const count = Object.keys(req.body.productid).length;
 console.log(count);
+
 for(var i=0; i<count; i++){
+
     const temp = req.body.productid[i];
     console.log(count);
     try{
