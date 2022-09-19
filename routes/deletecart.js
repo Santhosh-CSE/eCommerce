@@ -1,14 +1,14 @@
 const express= require('express');
 const router = express.Router();
 const jwt_decode = require("jwt-decode");
-const { find } = require('../models/DB/cartschema');
+//const { find } = require('../models/DB/cartschema');
 const schemaCart = require('../models/DB/cartschema');
 //const checkProduct = require('../middleware/checkProduct')
 
 router.post('/' ,async(req,res,next) =>
 {  
    
-    if(req.body.productid == null || (req.body.productid).length == 0){
+    if(req.body.productid == null || (req.body.productid).length == 0 ){
         return res.status(400).send({"error": "Invalid request"});
     }
     // console.log(req.headers);
@@ -19,9 +19,9 @@ router.post('/' ,async(req,res,next) =>
 
     console.log(JWT_usersId);
     const findcart = await schemaCart.findOne({ userid:JWT_usersId})
-    if(findcart == null){
+   /* if(findcart == null){
         return res.status(400).send({"error": "No records found"});
-    }
+    }*/
     console.log("dbdata", findcart.productid)
     var availableindb =  findcart.productid;
     var reqpayload  = req.body.productid;
