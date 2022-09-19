@@ -7,7 +7,7 @@ const schemaCart = require('../models/DB/cartschema');
 
 router.post('/' ,async(req,res,next) =>
 {  
-   
+
     if(req.body.productid == null || (req.body.productid).length == 0 ){
         return res.status(400).send({"error": "Invalid request"});
     }
