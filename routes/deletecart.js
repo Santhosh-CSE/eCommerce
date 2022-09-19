@@ -8,38 +8,42 @@ const schemaCart = require('../models/DB/cartschema');
 router.post('/' ,async(req,res,next) =>
 {  
 
-    if(req.body.productid == null || (req.body.productid).length == 0 ){
+    if(req.body.productid == null || (req.body.productid).length == 0){
         return res.status(400).send({"error": "Invalid request"});
     }
-    // console.log(req.headers);
-    // process.exit(0);
     const token = req.headers.authorization.split(" ")[1];
     var decoded = jwt_decode(token);
     const JWT_usersId = decoded.usersId;
 
     console.log(JWT_usersId);
-    const findcart = await schemaCart.findOne({ userid:JWT_usersId})
-   /* if(findcart == null){
-        return res.status(400).send({"error": "No records found"});
-    }*/
-    console.log("dbdata", findcart.productid)
-    var availableindb =  findcart.productid;
-    var reqpayload  = req.body.productid;
 
-
-    console.log(reqpayload.length);
-    let finalarray = availableindb;
-    for(var i=0; i < reqpayload.length; i++){
-        console.log(reqpayload[i]);
-        finalarray = removeItemAll(finalarray, reqpayload[i])
+    console.log(req.body.productid)
+    var cartList = req.body.productid;
+    var idsnotremovedList = [];
+    //var j = 0;
+    for(var i=0; i<cartList.length; i++){
+      console.log(cartList[i]);
+      var element = cartList[i];
+      let searchEle = await schemaCart.findOne({ userid:JWT_usersId, productid: element});
+    console.log("ele", element, searchEle);
+    if (searchEle == null || searchEle == "null"){
+      console.log("im inside", searchEle, i);
+      idsnotremovedList.push(element);
+    }else{
+      var list = removeItemAll(searchEle.productid, element)
+      const deletedData = await schemaCart.findOneAndUpdate({ userid:JWT_usersId, productid: list});
+      console.log(deletedData);
     }
-     console.log(finalarray);
-     console.log(JWT_usersId)
-    let updated = await schemaCart.findOneAndUpdate({ userid:JWT_usersId},{ productid: finalarray })
-    res.send({
-        "message": "deleted successfully",
-        "idsremaining": finalarray
-    });
+    if(cartList.length == i+1)
+    {
+      console.log(idsnotremovedList);
+      if(idsnotremovedList.length == cartList.length){
+        res.send({"message": "ids not found in db", "idsnotfound": idsnotremovedList});
+      }else{
+        res.send({"message": "deleted successfully", "idsnotfound": idsnotremovedList});
+      }
+    }
+    };
 })
 
 function removeItemAll(arr, value) {
