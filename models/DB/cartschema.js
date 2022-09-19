@@ -6,7 +6,7 @@ type: Array,
 required: true
 },
 userid:{
-    type:string,
+    type:String,
     required:true
 }
 });
