@@ -39,6 +39,7 @@ router.post('/', whitelist, async (req, res) => {
         }
     }
 })
+
 //Delete a Product
 router.delete('/:id', whitelist, async (req, res) => {
     /*if(req.params.id===null)
@@ -51,6 +52,28 @@ router.delete('/:id', whitelist, async (req, res) => {
     } catch (err) {
         res.json({ message: err });
     }
+
+    try {
+        const a1 = await postdata.save()
+        //const message="product is added"
+        res.json({ message: "Product is added" });
+    } catch (err) {
+        res.send(`error:${err}`)
+    }
+})
+//Delete a Post
+router.delete('/:id', whitelist, async (req, res) => {
+    /*if(req.params.id===null)
+    {
+    res.json({message:"product id cannot be empty"})
+    }*/
+    try {
+        const removedPost = await schema.findByIdAndDelete(req.params.id);
+        res.json(removedPost);
+    } catch (err) {
+        res.json({ message: err });
+    }
+    //>>>>>>> 13a732c4443b7c9600e47b111c6d59446b212893
 });
 router.delete('/', whitelist, (req, res) => {
     res.json({ message: "product id cannot be empty" })
