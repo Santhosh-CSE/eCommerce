@@ -16,7 +16,13 @@ const userSchema = mongoose.Schema({
         type: String,
         required: true,
         match: /^\+?([0-9]{3})\)?[ -]?([0-9]{3})[ -]?([0-9]{4})$/
-    }
+    },
+    wallet: {
+    type:String,
+    default:1000,
+    required:true
+}
 });
+
 
 module.exports = mongoose.model('User', userSchema);
