@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const {addUserValidation} = require('../middleware/validation');
-const {auth} = require('../controllers/auth')
+
 //var isNullOrEmpty = require('check-null-or-empty');
 
 const User = require('../models/DB/User');
@@ -87,7 +87,7 @@ router.post('/login', (req, res, next) => {
                 }, 
                 process.env.JWT_KEY, 
                 {
-                    expiresIn: "1s"
+                    expiresIn: "1h"
                 }
                 );
                 return res.status(200).json({
@@ -107,13 +107,9 @@ router.post('/login', (req, res, next) => {
 });
 });
 
-router.get('/logout', auth, (req, res, next) => {
-    req.user.deleteToken(req.token, (err,user) => {
-        if(err)
-        return res.status(400).send(err);
-        res.sendStatus(200);
-    })
+router.post('/logout', (req, res, next) => {
+token = undefined;
+res.send("Logged out Successfully");
 });
-
 
 module.exports = router;
