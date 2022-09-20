@@ -92,7 +92,7 @@ router.post('/login', (req, res, next) => {
                         }
                     );
                     //  var tokenData = { "userid": users[0]._id, "token": token, "expiresIn": "1h" }
-                 var tokenData = new tokenschema({
+                    const tokenData = new tokenschema({
                         _id: new mongoose.Types.ObjectId(),
                         "userid": users[0]._id,
                         "token": token,
@@ -101,8 +101,8 @@ router.post('/login', (req, res, next) => {
                     tokenData.save()
                         .then(result => {
                             console.log(result);
-                            return res.status(201).json({
-                                success: true
+                            return res.status(200).json({
+                                token: token
                             });
                         })
                         .catch(err => {
@@ -111,23 +111,23 @@ router.post('/login', (req, res, next) => {
                                 error: err.message
                             });
                         });
-                    res.status(200).json({
-                        token: token
-                    });
-                } else {
-                    res.status(401).json({
-                        message: 'Auth Failed'
-                    });
-                }
-            });
-        })
-        .catch(err => {
-            console.log(err);
-            return res.status(404).json({
-                error: err
-            });
+
+
+
+            } else {
+                res.status(401).json({
+                    message: 'Auth Failed'
+                });
+            }
+
         });
-});
+    })
+    .catch(err => {
+        console.log(err);
+        res.status(404).json({
+            error: err
+        });
+    });
 
-
+})
 module.exports = router;
