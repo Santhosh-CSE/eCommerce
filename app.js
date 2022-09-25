@@ -19,8 +19,13 @@ app.use('/addtoCart', addToCartRoutes);
 const updateCartRoutes = require('./routes/updatecart');
 app.use('/updatecart', updateCartRoutes);
 
+
+const deletedCartRoutes = require('./routes/deletecart');
+app.use('/deletecart', deletedCartRoutes);
+
 const checkOutRoutes = require('./routes/checkout');
 app.use('/checkout', checkOutRoutes);
+
 
 //Routes
 app.get('/',(req,res)=>{
