@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const {addUserValidation} = require('../middleware/validation');
+
 //var isNullOrEmpty = require('check-null-or-empty');
 
 const User = require('../models/DB/User');
@@ -106,6 +107,9 @@ router.post('/login', (req, res, next) => {
 });
 });
 
-
+router.post('/logout', (req, res, next) => {
+token = undefined;
+res.send("Logged out Successfully");
+});
 
 module.exports = router;

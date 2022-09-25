@@ -1,8 +1,11 @@
 var Promise = require("bluebird");
 var fs = Promise.promisifyAll(require("fs"));
 const schema = require('../models/DB/productschema');
+const jwt_decode = require("jwt-decode");
+const schemaCart = require('../models/DB/cartschema');
 
 
+//lodashmap
 
 const checkProduct = async (req, res, next) => {
 
@@ -37,11 +40,20 @@ const checkProduct = async (req, res, next) => {
         };
 
     }
+
 }
 
-//<<<<<<< HEAD
+
+
+
+    catch(err) {
+        res.status(404).json(
+          {message: 'Incorrect Product ID'}
+        );
+};
+}}
+
 
 
 module.exports = checkProduct;
-//=======
-//>>>>>>> 13a732c4443b7c9600e47b111c6d59446b212893
+
