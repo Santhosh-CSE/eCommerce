@@ -17,11 +17,16 @@ const userSchema = mongoose.Schema({
         required: true,
         match: /^\+?([0-9]{3})\)?[ -]?([0-9]{3})[ -]?([0-9]{4})$/
     },
-    wallet: {
-    type:String,
-    default:1000,
-    required:true
-}
+
+    wallet:{
+        type:Number,
+        required:true,
+        default:3000
+    },
+    token: {
+        type: String,
+    }
+
 });
 
 

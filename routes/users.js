@@ -5,10 +5,8 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { addUserValidation } = require('../middleware/validation');
 const tokenschema = require('../models/DB/tokenschema');
-//var isNullOrEmpty = require('check-null-or-empty');
-
 const User = require('../models/DB/User');
-//const { schema } = require('../models/DB/User');
+
 
 router.post('/signup', addUserValidation, (req, res, next) => {
     User.find({ email: req.body.email })
@@ -127,7 +125,8 @@ router.post('/login', (req, res, next) => {
         res.status(404).json({
             error: err
         });
-    });
 
+});
+});
 })
 module.exports = router;
